@@ -9,15 +9,16 @@ export default function Post(){
   const [data,setData] = useState({post:[]});
 
   useEffect(()=>{
-    axios.get('/'+id)
+    axios.get('post/'+id)
     .then(res=>{
       setData({post:res.data})
+      console.log(res.data)
     })
     .catch(err=>console.log(err))
   },[setData])
 
   const deleteHandler = ()=>{
-    axios.delete('/'+id)
+    axios.delete('post/'+id)
         .then(res=>{
             console.log(res);
         })
@@ -30,6 +31,7 @@ export default function Post(){
     <div>
       <h1>{data.post.title}</h1>
       <p>{data.post.content}</p>
+      <img src={data.post.image} />
       <button onClick={deleteHandler}>Delete</button>
     </div>
 

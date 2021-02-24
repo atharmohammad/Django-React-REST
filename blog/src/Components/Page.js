@@ -10,7 +10,7 @@ class Page extends Component{
   }
 
   componentDidMount(){
-    axios.get('/').then(response=>{
+    axios.get('post').then(response=>{
       this.setState({
         loading:false,
         post:response.data

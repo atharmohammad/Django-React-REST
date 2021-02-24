@@ -21,6 +21,7 @@ from rest_framework.documentation import include_docs_urls
 from django.conf.urls.static import static
 from django.conf import settings
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('blog.urls',namespace='blog')),
@@ -28,7 +29,7 @@ urlpatterns = [
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('api-auth/',include('rest_framework.urls',namespace='rest_framework')),
-    path('api/user/',include('user.urls',namespace='users')),
+    path('api/user/',include('user.urls',namespace='user')),
      path('schema', get_schema_view(
         title="Blog API",
         description="API for Blogs",

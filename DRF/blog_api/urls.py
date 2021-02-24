@@ -5,7 +5,7 @@ from rest_framework import routers
 app_name="blog_api"
 
 router = routers.DefaultRouter()
-router.register('',PostList,basename='post')
+router.register('post',PostList,basename='post')
 
 
 urlpatterns = [

@@ -60,12 +60,12 @@ export default function Login() {
   const handlechange = (event)=>{
     updateFormData({
       ...formData,
-      [event.target.name]:event.target.value.trim(),
+      [event.target.name]:event.target.value,
     })
   };
   const loginHandler = (event)=>{
     event.preventDefault();
-    console.log(formData);
+
     const data = {
       email:formData.email,
       password:formData.password
