@@ -8,6 +8,7 @@ from rest_framework import status
 from rest_framework import filters
 from rest_framework.permissions import (SAFE_METHODS,BasePermission,IsAuthenticated,AllowAny,
                 IsAdminUser,DjangoModelPermissions,DjangoModelPermissionsOrAnonReadOnly)
+from rest_framework.parsers import MultiPartParser,FormParser
 # Create your views here.
 
 class PostUserWritePermission(BasePermission):
@@ -31,6 +32,7 @@ class PostUserWritePermission(BasePermission):
 #         return auth
 
 class PostList(viewsets.ModelViewSet):
+    parser_classes = [MultiPartParser , FormParser]
     permission_classes = [AllowAny]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
@@ -49,9 +51,9 @@ class PostList(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
-        
+
     def retrieve(self,request,pk=None):
-        self.queryset = Post.objects.filter(author=request.user)
+        self.queryset = Post.objects.all()
         post = get_object_or_404(self.queryset,pk=pk)
         serializer_class = PostSerializer(post)
         return Response(serializer_class.data)
