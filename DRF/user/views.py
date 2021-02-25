@@ -22,7 +22,8 @@ class CustomUserCreate(APIView):
 
 class BlackListTokenView(APIView):
     permission_classes = [AllowAny]
-
+    # authentication_classes = ()
+    
     def post(self,request):
         try:
             refresh_token = request.data['refresh_token']
