@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -63,6 +63,10 @@ export default function Login() {
       [event.target.name]:event.target.value,
     })
   };
+
+    // useEffect(()=>{
+    // })
+
   const loginHandler = (event)=>{
     event.preventDefault();
 
@@ -77,8 +81,11 @@ export default function Login() {
           localStorage.setItem('refresh_token',response.data.refresh);
           axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('access_token');
           history.push('/');
+          window.location.reload(false)
         })
         .catch(err=>console.log(err))
+
+
   }
   return (
     <Container component="main" maxWidth="xs">

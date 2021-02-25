@@ -13,10 +13,10 @@ export default function Logout (){
         localStorage.removeItem('refresh_token');
         axios.defaults.headers['Authorization'] = null;
         console.log(response);
-        history.push('/login');
+        window.location.reload(false)
     });
 
     return(
-      <div></div>
+      <Redirect to='/login'/>
     )
 }
