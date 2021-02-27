@@ -12,7 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory,NavLink} from 'react-router-dom';
-import axios from '../axios'
+import axios from '../Axios/Login'
+import FbLogin from 'react-facebook-login'
+import axiosInst from 'axios'
 
 function Copyright() {
   return (
@@ -70,23 +72,45 @@ export default function Login() {
   const loginHandler = (event)=>{
     event.preventDefault();
 
-    const data = {
-      email:formData.email,
-      password:formData.password
-    }
-
-    axios.post('token/',data)
-        .then(response=>{
-          localStorage.setItem('access_token',response.data.access);
-          localStorage.setItem('refresh_token',response.data.refresh);
-          axios.defaults.headers['Authorization'] = 'JWT ' + localStorage.getItem('access_token');
-          history.push('/');
-          window.location.reload(false)
-        })
-        .catch(err=>console.log(err))
+    axiosInst
+  			.post(`auth/token/`, {
+  				grant_type: 'password',
+  				username: formData.email,
+  				password: formData.password,
+  				client_id: '3l3VNwmdec1Ld18PpH2EM6cIQDaE0z2h7xyv7i8G',
+  				client_secret:
+  					'HO8R13EnEGyA3zg4CCNKrrGahAPMBOSiPwS4A0zvOA8mMrBzpcyyJbz2h9eX2K2ocW1BZGluDSdYrP1sYwEYsr7jUxHjLSUALj4j0t6zO4jmgGmldHaKJrVMyGKK5Pac',
+  			})
+  			.then((res) => {
+  				localStorage.setItem('access_token', res.data.access_token);
+  				localStorage.setItem('refresh_token', res.data.refresh_token);
+  				history.push('/');
+  				window.location.reload();
+  			});
 
 
   }
+
+    const responseFacebook = async (response) => {
+      // console.log(response)
+      axios
+    		.post('http://127.0.0.1:8000/auth/convert-token', {
+    			token: response.accessToken,
+    			backend: 'facebook',
+    			grant_type: 'convert_token',
+    			client_id: '3l3VNwmdec1Ld18PpH2EM6cIQDaE0z2h7xyv7i8G',
+    			client_secret:
+    				'HO8R13EnEGyA3zg4CCNKrrGahAPMBOSiPwS4A0zvOA8mMrBzpcyyJbz2h9eX2K2ocW1BZGluDSdYrP1sYwEYsr7jUxHjLSUALj4j0t6zO4jmgGmldHaKJrVMyGKK5Pac',
+    		})
+    		.then((res) => {
+    			localStorage.setItem('access_token', res.data.access_token);
+    			localStorage.setItem('refresh_token', res.data.refresh_token);
+          history.push('/');
+          window.location.reload();
+    		});
+
+    };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -134,6 +158,11 @@ export default function Login() {
           >
             Login
           </Button>
+          <FbLogin
+						appId="262218718682544"
+						fields="name,email,picture"
+						callback={responseFacebook}
+					/>
           <Grid container justify="flex-end">
             <Grid item>
               <NavLink to='/register' variant="body2">

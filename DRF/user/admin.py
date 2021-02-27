@@ -7,13 +7,13 @@ from django.forms import TextInput,Textarea
 class UserAdminConfig(UserAdmin):
     model = NewUser #Providing Model to be customise
     ordering = ('-start_date',)  #This will make users in models appear in a certain order
-    search_fields = ('email','user_name','first_name') #This will tell what you can search through search bar
-    list_filter = ('email','user_name','first_name','is_active','is_staff')
+    search_fields = ('email','username','first_name') #This will tell what you can search through search bar
+    list_filter = ('email','username','first_name','is_active','is_staff')
     #django filter which appears in the admin section, make it filter according which fields
-    list_display = ('id','email','user_name','first_name','is_active','is_staff')
+    list_display = ('id','email','username','first_name','is_active','is_staff')
     #What to display on NewUser model table
     fieldsets = (
-        (None,{'fields':('email','user_name','first_name',)}),
+        (None,{'fields':('email','username','first_name',)}),
         ('permissions',{'fields':('is_active','is_staff',)}),
         ('personals',{'fields':('about','password',)}),
     )

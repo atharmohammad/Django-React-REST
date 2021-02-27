@@ -9,15 +9,12 @@ from rest_framework import filters
 from rest_framework.permissions import (SAFE_METHODS,BasePermission,IsAuthenticated,AllowAny,
                 IsAdminUser,DjangoModelPermissions,DjangoModelPermissionsOrAnonReadOnly)
 from rest_framework.parsers import MultiPartParser,FormParser
+from django.contrib.auth import get_user_model
+from rest_framework import exceptions
 # Create your views here.
 
-class PostUserWritePermission(BasePermission):
-    message = "Editting of Posts is authorised to User only"
-    def has_object_permission(self,request,view,obj):
-        if request.method in SAFE_METHODS:
-            return True
 
-        return obj.author == request.user
+
 
 # Ok So here we created a customised permission using BasePermission so what we did is that
 # if a user access a post which he had not created than it can only get it means read it only cannot
@@ -33,7 +30,7 @@ class PostUserWritePermission(BasePermission):
 
 class PostList(viewsets.ModelViewSet):
     parser_classes = [MultiPartParser , FormParser]
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -72,7 +69,7 @@ class PostList(viewsets.ModelViewSet):
 
 
 class PostListSearchView(generics.ListAPIView):
-
+    permission_classes = [IsAuthenticated]
     queryset = Post.objects.all()
     serializer_class = PostListSerializer
     filter_backends = [filters.SearchFilter]

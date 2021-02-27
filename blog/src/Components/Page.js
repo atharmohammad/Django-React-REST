@@ -10,6 +10,9 @@ class Page extends Component{
   }
 
   componentDidMount(){
+    if(localStorage.getItem('access_token') == null){
+      this.props.history.push('/login');
+    }
     axios.get('post').then(response=>{
       this.setState({
         loading:false,
@@ -26,6 +29,7 @@ class Page extends Component{
 
   render(){
     let post;
+
     if(this.state.loading){
       post = <Spinner/>
     }

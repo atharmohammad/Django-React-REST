@@ -15,11 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from .views import CustomUserCreate,BlackListTokenView
+from .views import CustomUserCreate
 
 app_name = 'user'
 
 urlpatterns = [
     path('register/',CustomUserCreate.as_view(),name="create_user"),
-    path('logout/blacklist/',BlackListTokenView.as_view(),name="logout")
 ]

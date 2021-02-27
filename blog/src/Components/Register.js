@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {useHistory,NavLink} from 'react-router-dom';
-import axios from '../axios'
+import axios from 'axios'
 
 function Copyright() {
   return (
@@ -73,14 +73,14 @@ export default function SignUp() {
     const data = {
       email:formData.email,
       first_name:formData.first_name,
-      user_name:formData.user_name,
+      username:formData.user_name,
       password:formData.password,
       about:formData.about
     }
 
-    axios.post('user/register/',data)
+    axios.post('http://127.0.0.1:8000/api/user/register/',data)
         .then(response=>{
-          history.push('/');
+          history.push('/login');
           // console.log(response.data);
         })
         .catch(err=>console.log(err))
